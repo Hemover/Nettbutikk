@@ -11,3 +11,9 @@ Jeg kan vise kompetanse i drift, utvikling og brukerstøtte via: utvikling viser
 
 Bilde av Figma:
 <img width="955" height="718" alt="Skjermbilde 2025-11-11 110644" src="https://github.com/user-attachments/assets/952a43ff-bbf8-4c59-ace1-e99ef1fe4041" />
+
+
+
+Sikkerhetstilltak: 
+
+bruker git for backup, har en .gitignore for diverse som f.eks .env filer som inneholder ting som skal holder privat, skal lage brukere med begrenset tilgang og oppdaterer programvaren sånn någelunde. Sterke passord er også en selvfølge og passordet til brukere skal være hashed
