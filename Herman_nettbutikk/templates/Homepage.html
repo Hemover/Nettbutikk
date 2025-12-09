@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Min Nettbutikk</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='Homepage.css') }}">
+</head>
+<body>
+
+    <!-- HEADER -->
+    <header>
+        <div class="topbar">
+            <div class="logo">Nettverk.no</div>
+            <nav class="main-nav">
+                <a href="/Produkter">Produkter</a>
+                <a href="#">Kontakt meg</a>
+                <a href="#">Logg inn</a>
+                <a href="#">Opprett Bruker</a>
+            </nav>
+            <div class="actions">
+                <input type="text" placeholder="Søk etter produkter...">
+                <button class="cart-btn">🛒</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main content -->
+    <section class="main">
+        <div class="main-content">
+            <h1>Teknologi som gjør hverdagen enklere</h1>
+            <p>Oppdag nye produkter til jobb og hjem.</p>
+            <a href="#" class="cta-btn">Se produkter</a>
+        </div>
+    </section>
+
+    <!-- Produktene -->
+    <section class="products">
+        <h2>Populære produkter</h2>
+        <div class="product-grid">
+            
+            <div class="product-card">
+                <img src="{{ url_for('static', filename='image/TP-LINKwireless_ruter.avif') }}" alt="Produkt">
+                <h3>TP-LINKtrådløs ruter (TL-WR841N)</h3>
+                <p class="price">375 kr</p>
+                <button>Kjøp nå</button>
+            </div>
+
+            <div class="product-card">
+                <img src="{{ url_for('static', filename='image/firewall.jpg') }}" alt="Produkt">
+                <h3>Cisco Meraki Mx67 Router Security Appliance </h3>
+                <p class="price">6 244 KR</p>
+                <button>Kjøp nå</button>
+            </div>
+
+            <div class="product-card">
+                <img src="{{ url_for('static', filename='image/switch.jpg') }}" alt="Produkt">
+                <h3>24-Port Gigabit Smart Switch GS724TV6 </h3>
+                <p class="price">2 900 KR</p>
+                <button>Kjøp nå</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <p>Design inspirert av Dustin.no</p>
+    </footer>
+
+</body>
+</html>
