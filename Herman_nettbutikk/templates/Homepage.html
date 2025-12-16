@@ -13,15 +13,27 @@
         <div class="topbar">
             <div class="logo">Nettverk.no</div>
             <nav class="main-nav">
-                <a href="/Produkter">Produkter</a>
-                <a href="#">Kontakt meg</a>
-                <a href="#">Logg inn</a>
-                <a href="#">Opprett Bruker</a>
-            </nav>
+    <a href="/">Hjem</a>
+    <a href="/Produkter">Produkter</a>
+
+    
+
+{% if logged_in %}
+  <span>Logget inn som <strong>{{ username }}</strong></span>
+  <a href="{{ url_for('logout') }}">Logg ut</a>
+{% else %}
+  <a href="{{ url_for('Login') }}">Logg inn</a>
+  <a href="{{ url_for('Register') }}">Opprett bruker</a>
+{% endif %}
+</nav>
             <div class="actions">
-                <input type="text" placeholder="Søk etter produkter...">
-                <button class="cart-btn">🛒</button>
-            </div>
+        <input type="text" placeholder="Søk etter produkter...">
+  {% if logged_in %}
+    <a href="{{ url_for('cart') }}" class="cart-btn">
+      🛒 <span class="cart-count">{{ cart_count }}</span>
+    </a>
+  {% endif %}
+</div>
         </div>
     </header>
 
@@ -43,7 +55,7 @@
                 <img src="{{ url_for('static', filename='image/TP-LINKwireless_ruter.avif') }}" alt="Produkt">
                 <h3>TP-LINKtrådløs ruter (TL-WR841N)</h3>
                 <p class="price">375 kr</p>
-                <button>Kjøp nå</button>
+                <button>Legg til i handlekurv</button>
             </div>
 
             <div class="product-card">

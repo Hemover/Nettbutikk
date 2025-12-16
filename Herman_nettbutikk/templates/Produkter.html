@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TP-LINK Trådløs Ruter</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='Homepage.css') }}">
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+    <div class="topbar">
+        <div class="logo">Nettverk.no</div>
+        <nav class="main-nav">
+    <a href="/">Hjem</a>
+    <a href="/Produkter">Produkter</a>
+
+    {% if logged_in %}
+        <span>Logget inn som <strong>{{ username }}</strong></span>
+        <a href="/logout">Logg ut</a>
+    {% else %}
+        <a href="/Login">Logg inn</a>
+        <a href="/Register">Opprett bruker</a>
+    {% endif %}
+</nav>
+        <div class="actions">
+            <input type="text" placeholder="Søk etter produkter...">
+            <button class="cart-btn">🛒</button>
+        </div>
+    </div>
+</header>
+
+<!-- PRODUKT -->
+<section class="product-page">
+    <div class="product-container">
+
+        <div class="product-image">
+            <img src="{{ url_for('static', filename='image/TP-LINKwireless_ruter.avif') }}" alt="TP-LINK Ruter">
+        </div>
+
+        <div class="product-info">
+            <h1>TP-LINK Trådløs Ruter (TL-WR841N)</h1>
+            <p class="price">375 kr</p>
+
+            <p class="description">
+                Stabil og rimelig trådløs ruter perfekt for hjem og små kontorer.
+                Støtter opptil 300 Mbps og gir pålitelig dekning.
+            </p>
+
+            <ul class="specs">
+                <li>✔ Trådløs hastighet: 300 Mbps</li>
+                <li>✔ 4x LAN-porter</li>
+                <li>✔ WPA/WPA2-sikkerhet</li>
+                <li>✔ Enkel installasjon</li>
+            </ul>
+
+                <a href="/add-to-cart/1">
+        <button>Kjøp nå</button>
+    </a>
+        </div>
+
+    </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+    <p>Design inspirert av Dustin.no</p>
+</footer>
+
+</body>
+</html>

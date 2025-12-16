@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Opprett bruker</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='Homepage.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='Register.css') }}">
+    
+</head>
+<body>
+
+<header>
+    <div class="topbar">
+        <div class="logo">Nettverk.no</div>
+        <nav class="main-nav">
+    <a href="/">Hjem</a>
+    <a href="/Produkter">Produkter</a>
+
+    {% if logged_in %}
+        <span>Logget inn som <strong>{{ username }}</strong></span>
+        <a href="/logout">Logg ut</a>
+    {% else %}
+        <a href="/Login">Logg inn</a>
+        <a href="/Register">Opprett bruker</a>
+    {% endif %}
+</nav>
+    </div>
+</header>
+
+<section class="register-container">
+    <h1>Opprett bruker</h1>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% for category, message in messages %}
+        <div class="alert {{ category }}">{{ message }}</div>
+      {% endfor %}
+    {% endwith %}
+
+    <form method="POST">
+        <input type="text" name="username" placeholder="Brukernavn" required>
+        <input type="email" name="email" placeholder="E-post" required>
+        <input type="password" name="password" placeholder="Passord" required>
+        <button type="submit">Opprett konto</button>
+    </form>
+</section>
+
+<footer>
+    <p>Design inspirert av Dustin.no</p>
+</footer>
+
+</body>
+</html>

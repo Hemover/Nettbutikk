@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+    <meta charset="UTF-8">
+    <title>Handlekurv</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='Homepage.css') }}">
+</head>
+<body>
+
+<header>
+    <div class="topbar">
+        <div class="logo">Nettverk.no</div>
+    </div>
+</header>
+
+<section class="products">
+    <h2>Din handlekurv</h2>
+
+    {% if cart %}
+        <ul>
+            {% for product_id in cart %}
+                <li>Produkt ID: {{ product_id }}</li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>Handlekurven er tom</p>
+    {% endif %}
+</section>
+
+</body>
+</html>

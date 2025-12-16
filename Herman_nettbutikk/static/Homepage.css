@@ -39,14 +39,7 @@ header {
     border-radius: 3px;
     margin-right: 10px;
 }
-.cart-btn {
-    background: #0071e3;
-    color: white;
-    border: none;
-    padding: 8px 12px;
-    border-radius: 4px;
-    cursor: pointer;
-}
+
 .main {
     background: url("https://via.placeholder.com/1500x500") center/cover no-repeat;
     height: 350px;
@@ -92,8 +85,8 @@ header {
 }
 
 .product-card img {
-    width: 100%;
-    height: auto;
+    width: 240px;
+    height: 240px;
 }
 .price {
     font-size: 18px;
@@ -113,4 +106,84 @@ footer {
     padding: 20px;
     background: #eee;
     margin-top: 40px;
+}
+.product-page {
+    padding: 40px;
+}
+
+.product-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    background: white;
+    padding: 30px;
+    border-radius: 6px;
+}
+
+.product-image img {
+    width: 100%;
+    max-width: 400px;
+}
+
+.product-info h1 {
+    margin-top: 0;
+}
+
+.description {
+    margin: 15px 0;
+    line-height: 1.6;
+}
+
+.specs {
+    list-style: none;
+    padding: 0;
+    margin: 20px 0;
+}
+
+.specs li {
+    margin-bottom: 8px;
+}
+
+.buy-btn {
+    background: #0071e3;
+    color: white;
+    border: none;
+    padding: 14px 22px;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.buy-btn:hover {
+    background: #005bb5;
+}
+.actions {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+}
+
+.cart-btn {
+  position: relative;
+  font-size: 20px;
+  text-decoration: none;
+  color: black;
+  padding: 8px 12px;
+}
+
+.cart-count {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  background: red;
+  color: white;
+  border-radius: 50%;
+  font-size: 12px;
+  padding: 2px 6px;
+}
+
+.main-nav span {
+    margin-right: 15px;
+    font-weight: 500;
+    color: #0071e3;
 }
