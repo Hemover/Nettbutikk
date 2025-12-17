@@ -197,5 +197,204 @@ def cart():
 
     return render_template("Cart.html", items=items)
 
+
+@app.route("/checkout", methods=["POST"])
+def checkout():
+    if "user_id" not in session:
+        return redirect(url_for("login"))
+
+    user_id = session["user_id"]
+    conn = get_db()
+    cur = conn.cursor(dictionary=True)
+
+    # Hent handlekurv
+    cur.execute("""
+        SELECT c.product_id, c.quantity, p.price, p.stock
+        FROM cart c
+        JOIN products p ON c.product_id = p.id
+        WHERE c.user_id = ?
+    """, (user_id,))
+    items = cur.fetchall()
+
+    if not items:
+        flash("Handlekurven er tom", "error")
+        return redirect(url_for("cart"))
+
+    # Lager-sjekk
+    for item in items:
+        if item["quantity"] > item["stock"]:
+            flash("Ikke nok på lager", "error")
+            return redirect(url_for("cart"))
+
+    # Totalpris
+    total_price = sum(item["quantity"] * item["price"] for item in items)
+
+    # ➕ Opprett ordre
+    cur.execute("""
+        INSERT INTO orders (user_id, total_price)
+        VALUES (?, ?)
+    """, (user_id, total_price))
+
+    order_id = cur.lastrowid 
+
+    # Trekk lager
+    for item in items:
+        cur.execute("""
+            UPDATE products
+            SET stock = stock - ?
+            WHERE id = ?
+        """, (item["quantity"], item["product_id"]))
+
+        # order_items (hvis du har den tabellen)
+        cur.execute("""
+            INSERT INTO order_items (order_id, product_id, quantity, price)
+            VALUES (?, ?, ?, ?)
+        """, (order_id, item["product_id"], item["quantity"], item["price"]))
+
+    # Tøm handlekurv
+    cur.execute("DELETE FROM cart WHERE user_id = ?", (user_id,))
+
+    conn.commit()
+    cur.close()
+    conn.close()
+
+    #sender order til templaten
+    return render_template(
+        "OrderConfirmation.html",
+        order={"id": order_id, "total": total_price}
+    )
+
+@app.route("/order/<int:order_id>")
+def order_confirmation(order_id):
+    if "user_id" not in session:
+        return redirect(url_for("login"))
+
+    conn = get_db()
+    cur = conn.cursor(dictionary=True)
+
+    cur.execute("""
+        SELECT o.id, o.total, o.created_at
+        FROM orders o
+        WHERE o.id = ? AND o.user_id = ?
+    """, (order_id, session["user_id"]))
+
+    order = cur.fetchone()
+
+    cur.execute("""
+        SELECT 
+            p.name,
+            oi.quantity,
+            oi.price,
+            (oi.quantity * oi.price) AS total
+        FROM order_items oi
+        JOIN products p ON oi.product_id = p.id
+        WHERE oi.order_id = ?
+    """, (order_id,))
+
+    items = cur.fetchall()
+
+    cur.close()
+    conn.close()
+
+    return render_template(
+        "OrderConfirmation.html",
+        order=order,
+        items=items
+    )
+
+@app.route("/cart/decrease/<int:product_id>", methods=["POST"])
+def decrease_quantity(product_id):
+    if "user_id" not in session:
+        return redirect(url_for("login"))
+
+    user_id = session["user_id"]
+
+    conn = get_db()
+    cur = conn.cursor()
+
+    # Reduser antall
+    cur.execute("""
+        UPDATE cart
+        SET quantity = quantity - 1
+        WHERE user_id = ? AND product_id = ?
+    """, (user_id, product_id))
+
+    # Fjern hvis quantity blir 0
+    cur.execute("""
+        DELETE FROM cart
+        WHERE user_id = ? AND product_id = ? AND quantity <= 0
+    """, (user_id, product_id))
+
+    conn.commit()
+    cur.close()
+    conn.close()
+
+    return redirect(url_for("cart"))
+
+@app.route("/cart/remove/<int:product_id>", methods=["POST"])
+def remove_from_cart(product_id):
+    if "user_id" not in session:
+        return redirect(url_for("login"))
+
+    conn = get_db()
+    cur = conn.cursor()
+
+    cur.execute(
+        "DELETE FROM cart WHERE user_id = ? AND product_id = ?",
+        (session["user_id"], product_id)
+    )
+
+    conn.commit()
+    cur.close()
+    conn.close()
+
+    return redirect(url_for("cart"))
+
+@app.route("/cart/increase/<int:product_id>", methods=["POST"])
+def increase_quantity(product_id):
+    if "user_id" not in session:
+        return redirect(url_for("login"))
+
+    user_id = session["user_id"]
+
+    conn = get_db()
+    cur = conn.cursor(dictionary=True)
+
+    # Hent lager
+    cur.execute(
+        "SELECT stock FROM products WHERE id = ?",
+        (product_id,)
+    )
+    product = cur.fetchone()
+
+    # Hent antall i handlekurv
+    cur.execute(
+        "SELECT quantity FROM cart WHERE user_id = ? AND product_id = ?",
+        (user_id, product_id)
+    )
+    cart_item = cur.fetchone()
+
+    if not product or not cart_item:
+        return redirect(url_for("cart"))
+
+    # Sperre
+    if cart_item["quantity"] >= product["stock"]:
+        flash("Du kan ikke legge til flere enn det som er på lager", "error")
+        return redirect(url_for("cart"))
+
+    # Øk antall
+    cur.execute("""
+        UPDATE cart
+        SET quantity = quantity + 1
+        WHERE user_id = ? AND product_id = ?
+    """, (user_id, product_id))
+
+    conn.commit()
+    cur.close()
+    conn.close()
+
+    return redirect(url_for("cart"))
+
+
 if __name__ == '__main__':
     app.run(debug=True,host="0.0.0.0",port=5000)

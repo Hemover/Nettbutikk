@@ -9,13 +9,12 @@
 <body>
 
 <!-- HEADER -->
-<header class="navbar">
+    <header class="navbar">
     <div class="left">
         <span class="logo">Min Nettbutikk</span>
         <nav class="main-nav">
             <a href="/">Hjem</a>
-            
-            <a href="{{ url_for('produkter') }}">Produkter</a>
+            <a href="/Produkter">Produkter</a>
 
 
                 {% if logged_in %}
@@ -26,15 +25,18 @@
             <a href="/Register">Opprett bruker</a>
         {% endif %}
         </nav>
+    </div>
+   
+
+    <div class="actions">
+        <input type="text" placeholder="Søk etter produkter...">
+
+        
+            <a href="{{ url_for('cart') }}" class="cart-btn">
+                🛒 <span class="cart-count">{{ cart_count }}</span>
+            </a>
         
     </div>
-   <div class="actions">
-            <input type="text" placeholder="Søk etter produkter...">
-            <button class="cart-btn">🛒</button>
-        </div>
-
-    
-</form>
 </header>
 
 <!-- PRODUKT -->

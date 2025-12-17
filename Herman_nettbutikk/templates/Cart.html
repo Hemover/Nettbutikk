@@ -7,31 +7,79 @@
 </head>
 <body>
 
-<header>
-    <div class="topbar">
-        <div class="logo">Nettverk.no</div>
+<header class="navbar">
+    <div class="left">
+        <span class="logo">Min Nettbutikk</span>
+        <nav class="main-nav">
+            <a href="/">Hjem</a>
+            <a href="/Produkter">Produkter</a>
+
+
+                {% if logged_in %}
+            <span>Logget inn som <strong>{{ username }}</strong></span>
+            <a href="/logout">Logg ut</a>
+        {% else %}
+            <a href="/Login">Logg inn</a>
+            <a href="/Register">Opprett bruker</a>
+        {% endif %}
+        </nav>
+    </div>
+   
+
+    <div class="actions">
+        <input type="text" placeholder="Søk etter produkter...">
+
+        
+            <a href="{{ url_for('cart') }}" class="cart-btn">
+                🛒 <span class="cart-count">{{ cart_count }}</span>
+            </a>
+        
     </div>
 </header>
 
 <h1>Handlekurv</h1>
 
 {% if items %}
-    {% set grand_total = 0 %}
+    {% set ns = namespace(total=0) %}
+
     {% for item in items %}
-        <p>
-            {{ item.name }} -
-            {{ item.quantity }} stk -
-            {{ item.total_price }} kr
-        </p>
-        {% set grand_total = grand_total + item.total_price %}
+        <div style="margin-bottom: 10px;">
+            <strong>{{ item.name }}</strong><br>
+
+            {{ item.quantity }} stk – {{ item.total_price }} kr
+
+            <form method="post"
+                  action="{{ url_for('decrease_quantity', product_id=item.id) }}"
+                  style="display:inline;">
+                <button type="submit">−</button>
+            </form>
+
+            <form method="post"
+                  action="{{ url_for('increase_quantity', product_id=item.id) }}"
+                  style="display:inline;">
+                <button type="submit">+</button>
+            </form>
+
+            <form method="post"
+                  action="{{ url_for('remove_from_cart', product_id=item.id) }}"
+                  style="display:inline;">
+                <button type="submit">Fjern</button>
+            </form>
+        </div>
+
+        {% set ns.total = ns.total + item.total_price %}
     {% endfor %}
 
     <hr>
-    <strong>Total: {{ grand_total }} kr</strong>
+    <strong>Total: {{ ns.total }} kr</strong>
+
+    <form method="post" action="{{ url_for('checkout') }}">
+        <button type="submit">Fullfør kjøp</button>
+    </form>
 
 {% else %}
     <p>Handlekurven er tom</p>
 {% endif %}
-
+</form>
 </body>
 </html>
