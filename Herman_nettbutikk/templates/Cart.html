@@ -13,19 +13,25 @@
     </div>
 </header>
 
-<section class="products">
-    <h2>Din handlekurv</h2>
+<h1>Handlekurv</h1>
 
-    {% if cart %}
-        <ul>
-            {% for product_id in cart %}
-                <li>Produkt ID: {{ product_id }}</li>
-            {% endfor %}
-        </ul>
-    {% else %}
-        <p>Handlekurven er tom</p>
-    {% endif %}
-</section>
+{% if items %}
+    {% set grand_total = 0 %}
+    {% for item in items %}
+        <p>
+            {{ item.name }} -
+            {{ item.quantity }} stk -
+            {{ item.total_price }} kr
+        </p>
+        {% set grand_total = grand_total + item.total_price %}
+    {% endfor %}
+
+    <hr>
+    <strong>Total: {{ grand_total }} kr</strong>
+
+{% else %}
+    <p>Handlekurven er tom</p>
+{% endif %}
 
 </body>
 </html>

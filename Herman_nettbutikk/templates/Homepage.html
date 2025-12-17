@@ -12,15 +12,15 @@
     <div class="left">
         <span class="logo">Min Nettbutikk</span>
         <nav class="main-nav">
-            
-            <a href="{{ url_for('produkter') }}">Produkter</a>
+            <a href="/">Hjem</a>
+            <a href="/Produkter">Produkter</a>
 
 
                 {% if logged_in %}
             <span>Logget inn som <strong>{{ username }}</strong></span>
             <a href="/logout">Logg ut</a>
         {% else %}
-            <a href="/login">Logg inn</a>
+            <a href="/Login">Logg inn</a>
             <a href="/Register">Opprett bruker</a>
         {% endif %}
         </nav>

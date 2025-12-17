@@ -13,6 +13,7 @@
     <div class="left">
         <span class="logo">Min Nettbutikk</span>
         <nav class="main-nav">
+            <a href="/">Hjem</a>
             
             <a href="{{ url_for('produkter') }}">Produkter</a>
 
@@ -21,40 +22,43 @@
             <span>Logget inn som <strong>{{ username }}</strong></span>
             <a href="/logout">Logg ut</a>
         {% else %}
-            <a href="/login">Logg inn</a>
+            <a href="/Login">Logg inn</a>
             <a href="/Register">Opprett bruker</a>
         {% endif %}
         </nav>
+        
     </div>
-   
+   <div class="actions">
+            <input type="text" placeholder="Søk etter produkter...">
+            <button class="cart-btn">🛒</button>
+        </div>
 
-    <form action="{{ url_for('add_to_cart') }}" method="post">
-    <input type="hidden" name="product_id" value="{{ product.id }}">
-    <button type="submit">Legg i handlekurv</button>
+    
 </form>
 </header>
 
 <!-- PRODUKT -->
 <section class="product-page">
-  {% for product in products %}
-  <div class="product-container">
+    {% for product in products %}
+    <div class="product-container">
 
-    <div class="product-image">
-      <img src="{{ url_for('static', filename=product.image) }}">
+        <div class="product-image">
+            <img src="{{ url_for('static', filename=product.image) }}">
+        </div>
+
+        <div class="product-info">
+            <h1>{{ product.name }}</h1>
+            <p>{{ product.price }} kr</p>
+            <p>{{ product.description }}</p>
+
+            <form action="{{ url_for('add_to_cart') }}" method="post">
+                <input type="hidden" name="product_id" value="{{ product.id }}">
+                <button type="submit">Legg i handlekurv</button>
+            </form>
+        </div>
+
     </div>
-
-    <div class="product-info">
-      <h1>{{ product.name }}</h1>
-      <p class="price">{{ product.price }} kr</p>
-      <p class="description">{{ product.description }}</p>
-
-      <a href="{{ url_for('add_to_cart', product_id=product.id) }}">
-        <button>Legg til i handlekurv</button>
-      </a>
-    </div>
-
-  </div>
-  {% endfor %}
+    {% endfor %}
 </section>
 
 <!-- FOOTER -->
