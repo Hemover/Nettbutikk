@@ -27,10 +27,7 @@
     </div>
    
 
-    <div class="actions">
-        <input type="text" placeholder="Søk etter produkter...">
-
-        
+    <div class="actions">        
             <a href="{{ url_for('cart') }}" class="cart-btn">
                 🛒 <span class="cart-count">{{ cart_count }}</span>
             </a>
@@ -43,7 +40,7 @@
         <div class="main-content">
             <h1>Teknologi som gjør hverdagen enklere</h1>
             <p>Oppdag nye produkter til jobb og hjem.</p>
-            <a href="#" class="cta-btn">Se produkter</a>
+            <a href="/Produkter" class="cta-btn">Se produkter</a>
         </div>
     </section>
 
@@ -56,21 +53,21 @@
                 <img src="{{ url_for('static', filename='image/TP-LINKwireless_ruter.avif') }}" alt="Produkt">
                 <h3>TP-LINKtrådløs ruter (TL-WR841N)</h3>
                 <p class="price">375 kr</p>
-                <button>Legg til i handlekurv</button>
+                <a href="/Produkter" class="cta-btn">Se produkt</a>
             </div>
 
             <div class="product-card">
                 <img src="{{ url_for('static', filename='image/firewall.jpg') }}" alt="Produkt">
                 <h3>Cisco Meraki Mx67 Router Security Appliance </h3>
                 <p class="price">6 244 KR</p>
-                <button>Kjøp nå</button>
+                <a href="/Produkter" class="cta-btn">Se produkt</a>
             </div>
 
             <div class="product-card">
                 <img src="{{ url_for('static', filename='image/switch.jpg') }}" alt="Produkt">
                 <h3>24-Port Gigabit Smart Switch GS724TV6 </h3>
                 <p class="price">2 900 KR</p>
-                <button>Kjøp nå</button>
+                <a href="/Produkter" class="cta-btn">Se produkt</a>
             </div>
         </div>
     </section>

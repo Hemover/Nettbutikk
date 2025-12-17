@@ -4,9 +4,11 @@ from flask_bcrypt import Bcrypt
 import mariadb
 from flask import session
 from flask import abort
-
+import os
+from dotenv import load_dotenv, dotenv_values
+load_dotenv()
 app = Flask(__name__)
-app.secret_key = "super-hemmelig-nøkkel-123"
+app.secret_key = os.getenv("API_KEY")
 bcrypt = Bcrypt(app)
 
 
@@ -31,14 +33,15 @@ def produkter():
 
 
 
+
 # Database-tilkobling
 def get_db():
     return mariadb.connect(
-        user="db_user",
-        password="SlippMeg1nn!",
-        host="localhost",
-        port=3306,
-        database="nettbutikk"
+        user=os.getenv("DB_USER"),
+        password=os.getenv("DB_PASS"),
+        host=os.getenv("DB_HOST"),
+        port=int(os.getenv("DB_PORT")),
+        database=os.getenv("DB_NAME")
     )
 
 

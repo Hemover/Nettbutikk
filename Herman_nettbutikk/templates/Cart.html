@@ -26,10 +26,7 @@
     </div>
    
 
-    <div class="actions">
-        <input type="text" placeholder="Søk etter produkter...">
-
-        
+    <div class="actions">        
             <a href="{{ url_for('cart') }}" class="cart-btn">
                 🛒 <span class="cart-count">{{ cart_count }}</span>
             </a>
@@ -46,12 +43,12 @@
         <div style="margin-bottom: 10px;">
             <strong>{{ item.name }}</strong><br>
 
-            {{ item.quantity }} stk – {{ item.total_price }} kr
+            {{ item.quantity }} stk - {{ item.total_price }} kr
 
             <form method="post"
                   action="{{ url_for('decrease_quantity', product_id=item.id) }}"
                   style="display:inline;">
-                <button type="submit">−</button>
+                <button type="submit">-</button>
             </form>
 
             <form method="post"

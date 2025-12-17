@@ -1,3 +1,33 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+    <meta charset="UTF-8">
+    <title>Logg inn</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='Homepage.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='Register.css') }}">
+</head>
+<body>
+
+<header>
+    <div class="topbar">
+        <div class="logo">Nettverk.no</div>
+        <nav class="main-nav">
+    <a href="/">Hjem</a>
+    <a href="/Produkter">Produkter</a>
+
+    {% if logged_in %}
+        <span>Logget inn som <strong>{{ username }}</strong></span>
+        <a href="/logout">Logg ut</a>
+    {% else %}
+        
+        <a href="/Register">Opprett bruker</a>
+    {% endif %}
+</nav>
+    </div>
+</header>
+
+
+
 <h1>Takk for bestillingen!</h1>
 
 <p>Ordrenummer: {{ order.id }}</p>
