@@ -55,3 +55,4 @@ CREATE TABLE cart (
 
     FOREIGN KEY (product_id) REFERENCES products(id)
 );
+

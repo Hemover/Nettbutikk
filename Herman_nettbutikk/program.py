@@ -105,11 +105,24 @@ def login():
 
 @app.context_processor
 def inject_user():
-    cart = session.get("cart", [])
+    cart_count = 0
+
+    if "user_id" in session:
+        conn = get_db()
+        cur = conn.cursor()
+        cur.execute(
+            "SELECT SUM(quantity) FROM cart WHERE user_id = ?",
+            (session["user_id"],)
+        )
+        result = cur.fetchone()
+        cart_count = result[0] or 0
+        cur.close()
+        conn.close()
+
     return dict(
         logged_in="user_id" in session,
         username=session.get("username"),
-        cart_count=len(cart)
+        cart_count=cart_count
     )
 
 @app.route("/logout")
