@@ -7,35 +7,34 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='Homepage.css') }}">
 </head>
 <body>
-
     <!-- HEADER -->
-    <header>
-        <div class="topbar">
-            <div class="logo">Nettverk.no</div>
-            <nav class="main-nav">
-    <a href="/">Hjem</a>
-    <a href="/Produkter">Produkter</a>
+    <header class="navbar">
+    <div class="left">
+        <span class="logo">Min Nettbutikk</span>
+        <nav class="main-nav">
+            <a href="{{ url_for('login') }}">Logg inn</a>
+            <a href="{{ url_for('register') }}">Opprett bruker</a>
+            <a href="{{ url_for('produkter') }}">Produkter</a>
 
-    
 
-{% if logged_in %}
+            {% if logged_in %}
   <span>Logget inn som <strong>{{ username }}</strong></span>
   <a href="{{ url_for('logout') }}">Logg ut</a>
-{% else %}
-  <a href="{{ url_for('Login') }}">Logg inn</a>
-  <a href="{{ url_for('Register') }}">Opprett bruker</a>
-{% endif %}
-</nav>
-            <div class="actions">
-        <input type="text" placeholder="Søk etter produkter...">
-  {% if logged_in %}
-    <a href="{{ url_for('cart') }}" class="cart-btn">
-      🛒 <span class="cart-count">{{ cart_count }}</span>
-    </a>
   {% endif %}
-</div>
-        </div>
-    </header>
+        </nav>
+    </div>
+   
+
+    <div class="actions">
+        <input type="text" placeholder="Søk etter produkter...">
+
+        
+            <a href="{{ url_for('cart') }}" class="cart-btn">
+                🛒 <span class="cart-count">{{ cart_count }}</span>
+            </a>
+        
+    </div>
+</header>
 
     <!-- Main content -->
     <section class="main">
