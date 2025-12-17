@@ -9,58 +9,52 @@
 <body>
 
 <!-- HEADER -->
-<header>
-    <div class="topbar">
-        <div class="logo">Nettverk.no</div>
+<header class="navbar">
+    <div class="left">
+        <span class="logo">Min Nettbutikk</span>
         <nav class="main-nav">
-    <a href="/">Hjem</a>
-    <a href="/Produkter">Produkter</a>
+            
+            <a href="{{ url_for('produkter') }}">Produkter</a>
 
-    {% if logged_in %}
-        <span>Logget inn som <strong>{{ username }}</strong></span>
-        <a href="/logout">Logg ut</a>
-    {% else %}
-        <a href="/Login">Logg inn</a>
-        <a href="/Register">Opprett bruker</a>
-    {% endif %}
-</nav>
-        <div class="actions">
-            <input type="text" placeholder="Søk etter produkter...">
-            <button class="cart-btn">🛒</button>
-        </div>
+
+                {% if logged_in %}
+            <span>Logget inn som <strong>{{ username }}</strong></span>
+            <a href="/logout">Logg ut</a>
+        {% else %}
+            <a href="/login">Logg inn</a>
+            <a href="/Register">Opprett bruker</a>
+        {% endif %}
+        </nav>
     </div>
+   
+
+    <form action="{{ url_for('add_to_cart') }}" method="post">
+    <input type="hidden" name="product_id" value="{{ product.id }}">
+    <button type="submit">Legg i handlekurv</button>
+</form>
 </header>
 
 <!-- PRODUKT -->
 <section class="product-page">
-    <div class="product-container">
+  {% for product in products %}
+  <div class="product-container">
 
-        <div class="product-image">
-            <img src="{{ url_for('static', filename='image/TP-LINKwireless_ruter.avif') }}" alt="TP-LINK Ruter">
-        </div>
-
-        <div class="product-info">
-            <h1>TP-LINK Trådløs Ruter (TL-WR841N)</h1>
-            <p class="price">375 kr</p>
-
-            <p class="description">
-                Stabil og rimelig trådløs ruter perfekt for hjem og små kontorer.
-                Støtter opptil 300 Mbps og gir pålitelig dekning.
-            </p>
-
-            <ul class="specs">
-                <li>✔ Trådløs hastighet: 300 Mbps</li>
-                <li>✔ 4x LAN-porter</li>
-                <li>✔ WPA/WPA2-sikkerhet</li>
-                <li>✔ Enkel installasjon</li>
-            </ul>
-
-                <a href="/add-to-cart/1">
-        <button>Kjøp nå</button>
-    </a>
-        </div>
-
+    <div class="product-image">
+      <img src="{{ url_for('static', filename=product.image) }}">
     </div>
+
+    <div class="product-info">
+      <h1>{{ product.name }}</h1>
+      <p class="price">{{ product.price }} kr</p>
+      <p class="description">{{ product.description }}</p>
+
+      <a href="{{ url_for('add_to_cart', product_id=product.id) }}">
+        <button>Legg til i handlekurv</button>
+      </a>
+    </div>
+
+  </div>
+  {% endfor %}
 </section>
 
 <!-- FOOTER -->

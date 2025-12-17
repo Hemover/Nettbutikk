@@ -23,9 +23,18 @@ def get_db():
 def homepage():
     return render_template("Homepage.html")
 
-@app.route('/Produkter')
+@app.route("/produkter")
 def produkter():
-    return render_template('Produkter.html')
+    conn = get_db()
+    cur = conn.cursor(dictionary=True)
+
+    cur.execute("SELECT * FROM products")
+    products = cur.fetchall()
+
+    cur.close()
+    conn.close()
+
+    return render_template("Produkter.html", products=products)
 
 @app.route("/cart")
 def cart():
